@@ -1,8 +1,13 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import GithubProvider from "next-auth/providers/github";
 
 export const options = {
     providers: [
+        GithubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET,
+        })
+        ,
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -25,7 +30,7 @@ export const options = {
                 // });
                 // const user = await res.json();
 
-                const user = {id: "11" , fullname: "سعید افراز", username: "saeed", password: "123321"};
+                const user = {id: "11" , name: "سعید افراز", username: "saeed", password: "123321"};
 
                 if(credentials?.username === user.username && credentials?.password === user.password){
                     return user;
@@ -33,5 +38,9 @@ export const options = {
 
             }
         })
-    ]
+    ], 
+    pages: {
+        signIn: "/auth/login",
+        signOut: "/auth/signout"
+    }
 }
